@@ -11,14 +11,31 @@
  */
 
 // connecteer de datagegevens aan de controller
-const { sinterklaasGeschenken: geschenken } = require("../databank/data");
+const {
+  sinterklaasGeschenken: geschenken,
+} = require("../databank/data");
 
 const lijstGeschenken = (req, res) => {
-  res.json(geschenken);
+  let FilterGeschenken = [];
+  geschenken.forEach((geschenk) => {
+    FilterGeschenken.push({
+      id: `${geschenk.id}`,
+      naam: `${geschenk.naam}`,
+    });
+  });
+  res.json(FilterGeschenken);
 };
 
 const geschenkInfo = (req, res) => {
-  res.json({ status: "gelukt" });
+  let oneGeschenk = {};
+  oneGeschenk = geschenken.forEach((geschenk) => {
+    if ((geschenk.id = req.params.ID)) {
+      return geschenk;
+    }
+  });
+  console.log(oneGeschenk);
+
+  res.json(oneGeschenk);
 };
 
 const geschenkToevoegen = (req, res) => {
