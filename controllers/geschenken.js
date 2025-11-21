@@ -13,6 +13,7 @@
 // connecteer de datagegevens aan de controller
 const {
   sinterklaasGeschenken: geschenken,
+  kindjes,
 } = require("../databank/data");
 
 const lijstGeschenken = (req, res) => {
@@ -40,22 +41,30 @@ const geschenkInfo = (req, res) => {
 
 const geschenkToevoegen = (req, res) => {
   const newGeschenk = {
-    id: 15,
-    naam: "KarelKleintjes-tshirt",
-    categorie: "textiel",
-    prijs: 20.5,
+    id: req.body.id,
+    naam: req.body.naam,
+    categorie: req.body.categorie,
+    prijs: req.body.prijs,
   };
+  res.json({ resultaat: "ok" });
   geschenken.push(newGeschenk);
-  res.json(newGeschenk);
 };
 
 const geschenkWissen = (req, res) => {
   const geschenkToDel = geschenken.find(
     (geschenk) => geschenk.id == req.params.ID
   );
-  const indexToDel = geschenken.indexOf(geschenkToDel);
 
-  geschenken.splice(indexToDel, 1);
+  const indexToDel = geschenken.indexOf(geschenkToDel);
+  if (
+    kindjes.forEach((kind) => {
+      kind.geschenkId.find((id) => {
+        id == req.params.ID;
+      });
+    }) != true
+  ) {
+    geschenken.splice(indexToDel, 1);
+  }
   res.json({ resultaat: "gelukt" });
 };
 
